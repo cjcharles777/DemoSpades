@@ -136,7 +136,4 @@ function putCardInPlay(item)
     item.inputEnabled = false;
 }
 
-var socket = io.connect('http://localhost:3700');
-socket.on('connect', function(data) {
-    socket.emit('ping', '');
-});
+
