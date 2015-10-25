@@ -2,7 +2,7 @@ function Spades()
 {
     var self = this;
 
-    var socket = io.connect('http://localhost:3700');
+    var socket = io.connect('http://serene-ridge-3706.herokuapp.com/');
 
     socket.on('disconnect', function (data) {
         var msg = 'Connection loss :\\';
@@ -42,8 +42,8 @@ function Spades()
     var gameWidth = parseInt(document.getElementById(gameDiv).offsetWidth);
     var gameHeight = parseInt(document.getElementById(gameDiv).offsetHeight);
 
-    var debug = true;
-
+    var debug = false;
+    var host = false;
     var game = new Phaser.Game(gameWidth, gameHeight, debug ? Phaser.CANVAS : Phaser.AUTO, gameDiv, null, null, false, false);
     var playerCards, eastOppCards, northOppCards, westOppCards,
         cardsInPlay;
@@ -231,47 +231,51 @@ function Spades()
             socket.on('clientUpdateScores', function (data) {
                 self.updateClientScores(data);
             });
-            // socket.on('clientUpdateBall', function (data) {
-            //      self.updateClientBall(data);
-            //  });
+             socket.on('clientUpdateHand', function (data) {
+                  self.updateClientHand(data);
+              });
             socket.on('becomeHost', function (data) {
                 master = true;
                 //TODO: What does the host know?
             });
         },
         create: function () {
-            if (!master) {
-                //ball.body.velocity.x = 0;
-                //ball.body.velocity.y = 0;
-            }
-            else {
-
-            }
-
-            var scoresPos = [
-                {w: game.world.centerX, h: game.world.centerY - 100},
-                {w: game.world.centerX - 100, h: game.world.centerY},
-                {w: game.world.centerX, h: game.world.centerY + 100},
-                {w: game.world.centerX + 100, h: game.world.centerY}
-            ];
-
-            for (var i in paddles) {
-                // paddles[i].position.setTo(paddles[i].op.x,paddles[i].op.y);
-                var style = {font: "50px Arial", fill: "#" + colors[i], align: "center"};
-                paddles[i].scoreLabel = game.add.text(scoresPos[i].w, scoresPos[i].h, "0", style);
-                paddles[i].scoreLabel.anchor.setTo(0.5, 0.5);
-            }
 
             this.gameRunning = true;
         },
         update: function () {
             if (this.gameRunning) {
 
+                this.spadePhase = 1;
+                switch(spadesPhase)
+                {
+                    case 1: this.shuffle();
+                            break;
+                    case 2: this.bid();
+                            break;
+                    case 3: this.playHand();
+                            break;
+                    case 4: this.calculatePoints();
+                            break;
+                }
                 this.updateServer();
+
             }
         },
-        checkScore: function () {
-            //TODO:Scoring Here
+        shuffle: function () {
+            //TODO:Shuffle and deal here
+        },
+        bid:function()
+        {
+            //TODO: Take Bids here;
+        },
+        playHand: function()
+        {
+          //TODO: Play Hand Here
+        },
+        calculatePoints:function()
+        {
+            //TODO: Calculate the points after hand has been played
         },
         inputManagement: function () {
             //TODO: How do we handle the inputs here.
@@ -344,10 +348,8 @@ function Spades()
 
             }
         },
-        updateClientBall: function (data) {
-            if (!master) {
-
-            }
+        updateClientHand: function (data) {
+           //TODO: Get the hand from the server
         },
         render: function () {
             //       if (debug) {
