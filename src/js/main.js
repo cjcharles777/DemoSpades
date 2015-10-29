@@ -215,6 +215,7 @@ function Spades()
     var GameState = {
         inactivePlayers: {0: false, 1: false, 2: false, 3: false},
         gameRunning: false,
+        spadePhase: 1,
         init: function (data) {
             game.stage.disableVisibilityChange = true;
 
@@ -238,6 +239,9 @@ function Spades()
                 master = true;
                 //TODO: What does the host know?
             });
+            socket.on('dealtOne', function (data) {
+                $('#infoTextCenter').append(data);
+            });
         },
         create: function () {
 
@@ -246,8 +250,8 @@ function Spades()
         update: function () {
             if (this.gameRunning) {
 
-                this.spadePhase = 1;
-                switch(spadesPhase)
+
+                switch(this.spadePhase)
                 {
                     case 1: this.shuffle();
                             break;
@@ -264,6 +268,7 @@ function Spades()
         },
         shuffle: function () {
             //TODO:Shuffle and deal here
+            socket.emit('shuffleAndDeal', socket.id);
         },
         bid:function()
         {
