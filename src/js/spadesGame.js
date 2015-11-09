@@ -15,7 +15,7 @@ function SpadesGame()
 SpadesGame.prototype.dealOne = function()
 {
     var c = this.gameDeck.drawCard();
-
+    return c;
 }
 
 
@@ -65,10 +65,10 @@ function Deck(conf) {
             }
         }
         // jokers
-        for (j = 0; j < this.jokers; j++) {
+        for (j = 0; j < o.jokers; j++) {
             l = this._deck.length;
             // suit will always be 1 or 2
-            this._deck[l] = new Card("N", this.jokerText, (j % 2) + 1, '');
+            this._deck[l] = new Card("N", o.jokerText, (j % 2) + 1, '');
         }
     }
 
@@ -81,14 +81,14 @@ function Deck(conf) {
 Deck.prototype.shuffle =
     function()
     {
-        console.log("Cards before shuffle:" + cards);
-        for (i = theLength; i > 0; i--) {
+        console.log("Cards before shuffle:" + this._deck);
+        for (i = this._deck.length - 1; i > 0; i--) {
             toSwap = Math.floor(Math.random() * i);
-            tempCard = cards[i];
-            cards[i] = cards[toSwap];
-            cards[toSwap] = tempCard;
+            tempCard = this._deck[i];
+            this._deck[i] = this._deck[toSwap];
+            this._deck[toSwap] = tempCard;
         }
-        console.log("Cards after shuffle: "+cards);
+        console.log("Cards after shuffle: "+this._deck);
     };
 Deck.prototype.drawCard =
     function()
@@ -104,7 +104,7 @@ Deck.prototype.add =
 
 Deck.defaults =
 {
-    "ofString " : " of ",
+    "ofString" : " of ",
     "jokers": 2,
     "jokerText": "Joker",
     "ranks": {
@@ -139,6 +139,7 @@ function Card(rank, rankString, suit, suitString)
     this.rankString = rankString;
     this.suit = suit;
     this.suitString = suitString;
+    this.cardId = suit + '_' + rank;
     return this;
 }
 

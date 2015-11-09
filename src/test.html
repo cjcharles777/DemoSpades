@@ -11,7 +11,9 @@
             function f1()
             {
                 var game = new SpadesGame();
-                alert(game.playersTurn);
+                game.gameDeck.shuffle();
+                var card = game.dealOne();
+                alert(card.toString());
                 //form validation that recalls the page showing with supplied inputs.
             }
 

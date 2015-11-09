@@ -73,7 +73,66 @@ function Spades()
             this.loadingBar.y = game.world.centerY - this.loadingBar.height / 2;
             game.load.setPreloadSprite(this.loadingBar);
 
-            game.load.image('spades_a', 'img/cards/Spades/A.png');
+            game.load.image('S_A', 'img/cards/Spades/A.png');
+            game.load.image('S_2', 'img/cards/Spades/2.png');
+            game.load.image('S_3', 'img/cards/Spades/3.png');
+            game.load.image('S_4', 'img/cards/Spades/4.png');
+            game.load.image('S_5', 'img/cards/Spades/5.png');
+            game.load.image('S_6', 'img/cards/Spades/6.png');
+            game.load.image('S_7', 'img/cards/Spades/7.png');
+            game.load.image('S_8', 'img/cards/Spades/8.png');
+            game.load.image('S_9', 'img/cards/Spades/9.png');
+            game.load.image('S_10', 'img/cards/Spades/10.png');
+            game.load.image('S_J', 'img/cards/Spades/J.png');
+            game.load.image('S_Q', 'img/cards/Spades/Q.png');
+            game.load.image('S_K', 'img/cards/Spades/K.png');
+
+            game.load.image('H_A', 'img/cards/Hearts/A.png');
+            game.load.image('H_2', 'img/cards/Hearts/2.png');
+            game.load.image('H_3', 'img/cards/Hearts/3.png');
+            game.load.image('H_4', 'img/cards/Hearts/4.png');
+            game.load.image('H_5', 'img/cards/Hearts/5.png');
+            game.load.image('H_6', 'img/cards/Hearts/6.png');
+            game.load.image('H_7', 'img/cards/Hearts/7.png');
+            game.load.image('H_8', 'img/cards/Hearts/8.png');
+            game.load.image('H_9', 'img/cards/Hearts/9.png');
+            game.load.image('H_10', 'img/cards/Hearts/10.png');
+            game.load.image('H_J', 'img/cards/Hearts/J.png');
+            game.load.image('H_Q', 'img/cards/Hearts/Q.png');
+            game.load.image('H_K', 'img/cards/Hearts/K.png');
+
+            game.load.image('D_A', 'img/cards/Diamonds/A.png');
+            game.load.image('D_2', 'img/cards/Diamonds/2.png');
+            game.load.image('D_3', 'img/cards/Diamonds/3.png');
+            game.load.image('D_4', 'img/cards/Diamonds/4.png');
+            game.load.image('D_5', 'img/cards/Diamonds/5.png');
+            game.load.image('D_6', 'img/cards/Diamonds/6.png');
+            game.load.image('D_7', 'img/cards/Diamonds/7.png');
+            game.load.image('D_8', 'img/cards/Diamonds/8.png');
+            game.load.image('D_9', 'img/cards/Diamonds/9.png');
+            game.load.image('D_10', 'img/cards/Diamonds/10.png');
+            game.load.image('D_J', 'img/cards/Diamonds/J.png');
+            game.load.image('D_Q', 'img/cards/Diamonds/Q.png');
+            game.load.image('D_K', 'img/cards/Diamonds/K.png');
+
+            game.load.image('C_A', 'img/cards/Clubs/A.png');
+            game.load.image('C_2', 'img/cards/Clubs/2.png');
+            game.load.image('C_3', 'img/cards/Clubs/3.png');
+            game.load.image('C_4', 'img/cards/Clubs/4.png');
+            game.load.image('C_5', 'img/cards/Clubs/5.png');
+            game.load.image('C_6', 'img/cards/Clubs/6.png');
+            game.load.image('C_7', 'img/cards/Clubs/7.png');
+            game.load.image('C_8', 'img/cards/Clubs/8.png');
+            game.load.image('C_9', 'img/cards/Clubs/9.png');
+            game.load.image('C_10', 'img/cards/Clubs/10.png');
+            game.load.image('C_J', 'img/cards/Clubs/J.png');
+            game.load.image('C_Q', 'img/cards/Clubs/Q.png');
+            game.load.image('C_K', 'img/cards/Clubs/K.png');
+
+            game.load.image('1_N', 'img/cards/Joker/Joker_1.png');
+            game.load.image('2_N', 'img/cards/Joker/Joker_2.png');
+
+
             game.load.image('back_pomegranate', 'img/cards/Backs/Pomegranate.png');
         },
         create: function () {
@@ -88,7 +147,7 @@ function Spades()
             var item;
 
             for (var i = 0; i < 13; i++) {
-                item = playerCards.create(i * 50, 0, 'spades_a');
+                item = playerCards.create(i * 50, 0, 'S_A');
                 item.inputEnabled = true;
                 item.events.onInputOver.add(lift);
                 item.events.onInputOut.add(drop);
