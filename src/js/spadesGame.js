@@ -60,8 +60,14 @@ function Deck(conf) {
                 console.log('l = '+l);
                 console.log('r = '+r);
                 console.log('s = '+s);
-                this._deck[l] = new Card(r, o.ranks[r], s, o.suits[s]);
-                console.log(this._deck[l].toString());
+                var tmpCard = new Card(r, o.ranks[r], s, o.suits[s]);
+                if(!this.isExcluded(tmpCard))
+                {
+                    this._deck[l] = tmpCard;
+                    console.log(this._deck[l].toString());
+                }
+
+
             }
         }
         // jokers
@@ -101,6 +107,12 @@ Deck.prototype.add =
     {
         this._deck.push(card);
     };
+
+Deck.prototype.isExcluded =
+    function(card)
+    {
+      return ((card.rank == '2' && card.suit == 'H')||(card.rank == '2' && card.suit == 'C'));
+    }
 
 Deck.defaults =
 {
