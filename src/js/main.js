@@ -3,7 +3,7 @@ function Spades()
     var self = this;
 
     var socket = io.connect('http://serene-ridge-3706.herokuapp.com/');
-
+    //var socket = io.connect('http://localhost:3000/');
     socket.on('disconnect', function (data) {
         var msg = 'Connection loss :\\';
         console.error(msg + "\n" + data);
@@ -129,8 +129,8 @@ function Spades()
             game.load.image('C_Q', 'img/cards/Clubs/Q.png');
             game.load.image('C_K', 'img/cards/Clubs/K.png');
 
-            game.load.image('1_N', 'img/cards/Joker/Joker_1.png');
-            game.load.image('2_N', 'img/cards/Joker/Joker_2.png');
+            game.load.image('1_N', 'img/cards/Jokers/Joker_1.png');
+            game.load.image('2_N', 'img/cards/Jokers/Joker_2.png');
 
 
             game.load.image('back_pomegranate', 'img/cards/Backs/Pomegranate.png');
@@ -299,12 +299,20 @@ function Spades()
                 //TODO: What does the host know?
             });
             socket.on('dealtOne', function (data) {
-                $('#infoTextCenter').append(data);
+                console.log(data);
+                self.presentHand(data);
             });
+
         },
         create: function () {
 
             this.gameRunning = true;
+            var data = {socketId: socket.id};
+            if(master)
+            {
+                this.shuffle(data);
+            }
+
         },
         update: function () {
             if (this.gameRunning) {
@@ -312,7 +320,7 @@ function Spades()
 
                 switch(this.spadePhase)
                 {
-                    case 1: this.shuffle();
+                    case 1: //Something here
                             break;
                     case 2: this.bid();
                             break;
@@ -325,9 +333,9 @@ function Spades()
 
             }
         },
-        shuffle: function () {
+        shuffle: function (data) {
             //TODO:Shuffle and deal here
-            socket.emit('shuffleAndDeal', socket.id);
+            socket.emit('shuffleAndDeal', data);
         },
         bid:function()
         {
@@ -422,7 +430,24 @@ function Spades()
             //               game.debug.body(paddles[i]);
             //           }
             //       }
+        },
+        presentHand: function(handFromServer)
+        {
+            playerCards.destroy(false, false);
+            playerCards = game.add.group();
+            var item;
+            for (var i = 0; i < handFromServer.length; i++) {
+                item = playerCards.create(i * 50, 0, handFromServer[i].cardId);
+                item.inputEnabled = true;
+                item.events.onInputOver.add(lift);
+                item.events.onInputOut.add(drop);
+                item.events.onInputDown.add(confirmDoubleClick);
+            }
+            playerCards.scale.set(0.25, 0.25);
+            playerCards.x = game.world.width / 2 - (((30 * playerCards.length) + 130) * .25);
+            playerCards.y = game.world.height - 125;
         }
+
     };
 
     game.state.add("boot", BootState, true);

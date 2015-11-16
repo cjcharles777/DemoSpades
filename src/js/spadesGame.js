@@ -1,13 +1,11 @@
-/**
- * Created by cedric on 10/27/15.
- */
-function SpadesGame()
+function SpadesGame(players)
 {
 
     console.trace();
     this.gameDeck = new Deck();
-    this.playersHands = new Array(4);
+    this.playersHands = [];
     this.playersTurn = 0;
+    this.players = players;
 
 }
 
@@ -18,7 +16,33 @@ SpadesGame.prototype.dealOne = function()
     return c;
 }
 
+SpadesGame.prototype.dealOut = function()
+{
+    var i = 0;
+    this.gameDeck.shuffle();
+    this.gameDeck.shuffle();
+    while (this.gameDeck._deck.length > 0)
+    {
+        if(this.playersHands[this.players[i]] == undefined)
+        {
+            this.playersHands[this.players[i]] = [];
+        }
+        this.playersHands[this.players[i]][this.playersHands[this.players[i]].length] = this.dealOne();
+        if (i == 3)
+        {
+            i = 0;
+        }
+        else
+        {
+            i++;
+        }
 
+    }
+}
+SpadesGame.prototype.getHand = function(number)
+{
+    return this.playersHands[this.players[number]];
+}
 
 function compareRank(a, b)
 {
@@ -111,7 +135,7 @@ Deck.prototype.add =
 Deck.prototype.isExcluded =
     function(card)
     {
-      return ((card.rank == '2' && card.suit == 'H')||(card.rank == '2' && card.suit == 'C'));
+        return ((card.rank == '2' && card.suit == 'H')||(card.rank == '2' && card.suit == 'C'));
     }
 
 Deck.defaults =
@@ -169,5 +193,3 @@ function objExtend(o, ex) {
     }
     return o;
 }
-
-//module.exports = SpadesGame;
